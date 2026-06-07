@@ -29,18 +29,28 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # ---------------------------------------------------------------------------
-# DeepSeek AI 客户端初始化（惰性加载，支持无 API Key 时启动）
+# AI 客户端初始化（支持动态参数）
 # ---------------------------------------------------------------------------
-DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
+DEFAULT_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
+DEFAULT_URL = 'https://api.deepseek.com/v1'
+DEFAULT_MODEL = 'deepseek-chat'
 
-def get_deepseek_client() -> OpenAI:
-    """获取 DeepSeek AI 客户端实例，确保 API Key 已配置"""
-    if not DEEPSEEK_API_KEY:
-        raise RuntimeError('环境变量 DEEPSEEK_API_KEY 未设置，无法调用 AI')
-    return OpenAI(
-        api_key=DEEPSEEK_API_KEY,
-        base_url='https://api.deepseek.com/v1',
-    )
+def create_ai_client(api_key: str = '', base_url: str = '') -> OpenAI:
+    key = api_key or DEFAULT_KEY
+    if not key:
+        raise RuntimeError('缺少 API Key，请在「模型设置」中配置')
+    url = (base_url or DEFAULT_URL).strip()
+    if not url.startswith('http://') and not url.startswith('https://'):
+        url = DEFAULT_URL
+    return OpenAI(api_key=key, base_url=url)
+
+PRESET_PROVIDERS = [
+    {'id': 'deepseek', 'name': 'DeepSeek', 'base_url': 'https://api.deepseek.com/v1', 'models': ['deepseek-chat', 'deepseek-reasoner', 'deepseek-v4-flash'], 'default_model': 'deepseek-chat'},
+    {'id': 'openai', 'name': 'OpenAI', 'base_url': 'https://api.openai.com/v1', 'models': ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'], 'default_model': 'gpt-4o-mini'},
+    {'id': 'siliconflow', 'name': '硅基流动', 'base_url': 'https://api.siliconflow.cn/v1', 'models': ['deepseek-llm/deepseek-chat', 'Qwen/Qwen2.5-7B-Instruct'], 'default_model': 'deepseek-llm/deepseek-chat'},
+    {'id': 'ollama', 'name': 'Ollama (本地)', 'base_url': 'http://localhost:11434/v1', 'models': ['llama3', 'qwen2.5', 'mistral'], 'default_model': 'llama3'},
+    {'id': 'custom', 'name': '自定义', 'base_url': '', 'models': [], 'default_model': ''},
+]
 
 
 # ===========================================================================
@@ -163,7 +173,7 @@ def generate_outline(category: str, idea: str, word_count: int) -> dict:
         "请生成完整的小说大纲，严格按照JSON格式返回。"
     )
 
-    client = get_deepseek_client()
+    client = create_ai_client()
     response = client.chat.completions.create(
         model='deepseek-chat',
         messages=[
@@ -248,7 +258,7 @@ def generate_chapter(novel_id: int, volume_id: int, chapter_id: int) -> str:
 
     user_prompt += "请写出本章完整内容（2000-5000字），仅输出正文："
 
-    client = get_deepseek_client()
+    client = create_ai_client()
     response = client.chat.completions.create(
         model='deepseek-chat',
         messages=[
@@ -440,7 +450,7 @@ def generate_novel(novel_id: int):
     if not novel:
         return jsonify({'error': '小说不存在'}), 404
 
-    if novel.status not in ('confirmed', 'generating'):
+    if novel.status not in ('confirmed', 'generating', 'interrupted'):
         return jsonify({'error': '小说状态不允许生成，请先确认大纲'}), 400
 
     total_chapters = Chapter.query.join(Volume).filter(
@@ -489,6 +499,133 @@ def generate_novel(novel_id: int):
 
 
 # -- 获取生成进度 ---------------------------------------------------------
+
+# 创意要素维度提示词映射（用于 AI 生成推荐选项）
+DIMENSION_PROMPTS = {
+    'protagonist': ('主角设定', 'Protagonist'),
+    'world': ('世界观', 'World Setting'),
+    'conflict': ('核心冲突', 'Core Conflict'),
+    'style': ('风格基调', 'Style & Tone'),
+    'advantage': ('主角优势', "Protagonist's Advantage"),
+}
+
+
+@app.route('/api/providers', methods=['GET'])
+def get_providers():
+    """返回预设的模型提供商列表"""
+    return jsonify(PRESET_PROVIDERS), 200
+
+
+@app.route('/api/test-api', methods=['POST'])
+def test_api():
+    """测试 AI API 配置是否有效"""
+    data = request.get_json(force=True)
+    api_key = data.get('api_key', '')
+    base_url = data.get('base_url', '')
+    model = data.get('model', '')
+
+    if not api_key and not DEFAULT_KEY:
+        return jsonify({'success': False, 'error': '请输入 API Key'}), 400
+
+    try:
+        client = create_ai_client(api_key, base_url)
+        response = client.chat.completions.create(
+            model=model or DEFAULT_MODEL,
+            messages=[{'role': 'user', 'content': '回复 OK'}],
+            max_tokens=10,
+            temperature=0,
+        )
+        reply = response.choices[0].message.content
+        return jsonify({'success': True, 'reply': reply}), 200
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 200
+
+
+@app.route('/api/suggest-options', methods=['POST'])
+def suggest_options():
+    """
+    POST /api/suggest-options
+    根据小说分类和维度，由 AI 推荐创意选项。
+    请求体: { category, dimension_key, locale, exclude?, api_key?, base_url?, model? }
+    """
+    data = request.get_json(force=True)
+    category = data.get('category', '')
+    dim_key = data.get('dimension_key', '')
+    locale = data.get('locale', 'zh')
+    exclude = data.get('exclude', [])
+
+    dim_info = DIMENSION_PROMPTS.get(dim_key)
+    if not dim_info:
+        return jsonify({'error': '无效的维度'}), 400
+
+    label_zh, label_en = dim_info
+    label = label_zh if locale == 'zh' else label_en
+    lang = '请用中文回答。' if locale == 'zh' else 'Please respond in English.'
+
+    exclude_hint = ''
+    if exclude:
+        exclude_hint = f'\n不要包含以下选项：{", ".join(exclude)}'
+
+    system_prompt = (
+        f"你是一个小说创作顾问。根据小说分类为「{category}」和创意维度「{label}」，"
+        f"推荐 10 个贴合该分类特色的选项。每个选项控制在 10 个字以内。"
+        f"必须返回 10 个选项，不要少于 10 个。"
+        f"仅返回 JSON 数组。{exclude_hint}\n{lang}"
+    )
+    user_prompt = (
+        f"小说分类：{category}\n维度：{label}\n"
+        f"请列出 10 个选项，每行一个编号：\n"
+        f"1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n10.\n"
+        f"然后用 JSON 数组格式返回这 10 个选项。"
+    )
+
+    api_key = data.get('api_key', '') or DEFAULT_KEY
+    base_url = data.get('base_url', '')
+    model = data.get('model', '')
+
+    try:
+        client = create_ai_client(api_key, base_url)
+        response = client.chat.completions.create(
+            model=model or DEFAULT_MODEL,
+            messages=[
+                {'role': 'system', 'content': system_prompt},
+                {'role': 'user', 'content': user_prompt},
+            ],
+            temperature=0.9,
+            max_tokens=2048,
+        )
+        content = response.choices[0].message.content
+        if '```json' in content:
+            content = content.split('```json')[1].split('```')[0].strip()
+        elif '```' in content:
+            content = content.split('```')[1].split('```')[0].strip()
+        options = json.loads(content)
+        if not isinstance(options, list):
+            options = []
+        # DeepSeek 习惯只返回 5 个，再调一次凑足 10 个
+        if len(options) < 10:
+            try:
+                existing = ', '.join(options)
+                more = client.chat.completions.create(
+                    model=model or DEFAULT_MODEL,
+                    messages=[
+                        {'role': 'system', 'content': f'你是一个小说创作顾问。根据小说分类「{category}」和维度「{label}」，推荐 5 个不同的选项。不要和以下选项重复：{existing}。仅返回 JSON 数组。{lang}'},
+                        {'role': 'user', 'content': f'推荐 5 个和现有不重复的选项。仅返回 JSON 数组。'},
+                    ],
+                    temperature=0.9,
+                    max_tokens=512,
+                )
+                extra = json.loads(more.choices[0].message.content)
+                if isinstance(extra, list):
+                    for x in extra:
+                        if x not in options and len(options) < 10:
+                            options.append(x)
+            except Exception:
+                pass
+        return jsonify({'options': options[:10]}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @app.route('/api/novels/<int:novel_id>/progress', methods=['GET'])
 def get_progress(novel_id: int):
@@ -636,5 +773,27 @@ def serve_frontend(path):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # 自动创建所有表
+        db.create_all()
+        # 启动自检：验证所有必需的 API 路由已注册
+        required_routes = ['/api/providers', '/api/test-api', '/api/suggest-options',
+                           '/api/novels', '/api/novels/<int:novel_id>/generate-outline']
+        registered = {r.rule for r in app.url_map.iter_rules()}
+        for route in required_routes:
+            if route not in registered:
+                import sys
+                sys.stderr.write(f'[WARN] 缺少 API 路由: {route}\n')
+                sys.stderr.flush()
+        # 检查启动时是否有异常中断的小说（generating 但未完成）
+        unfinished = Novel.query.filter(Novel.status == 'generating').all()
+        for n in unfinished:
+            total = db.session.query(Chapter).join(Volume).filter(Volume.novel_id == n.id).count()
+            done = db.session.query(Chapter).join(Volume).filter(
+                Volume.novel_id == n.id, Chapter.content.isnot(None), Chapter.content != ''
+            ).count()
+            if total > 0 and done < total:
+                n.status = 'interrupted'
+        db.session.commit()
+    # 清理有问题的系统代理环境变量（Windows no_proxy 含 IPv6 地址导致 httpx 报错）
+    for key in ('HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy', 'NO_PROXY', 'no_proxy'):
+        os.environ.pop(key, None)
     app.run(host='0.0.0.0', port=5001, debug=False)

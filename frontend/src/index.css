@@ -1,6 +1,127 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Vercel-inspired color system */
+  --color-bg: #ffffff;
+  --color-text: #171717;
+  --color-text-secondary: #4d4d4d;
+  --color-text-tertiary: #666666;
+  --color-text-muted: #808080;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-light: rgb(235, 235, 235);
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafafa;
+  --color-accent: #0072f5;
+  --color-focus: hsla(212, 100%, 48%, 1);
+
+  /* Status colors */
+  --color-status-draft: #f5a623;
+  --color-status-confirmed: #0072f5;
+  --color-status-generating: #de1d8d;
+  --color-status-done: #10b981;
+
+  /* Typography */
+  --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shadows — Vercel multi-layer technique */
+  --shadow-border: 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
+  --shadow-border-light: 0px 0px 0px 1px rgb(235, 235, 235);
+  --shadow-card: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 2px 2px rgba(0,0,0,0.04), 0px 8px 8px -8px rgba(0,0,0,0.04), inset 0px 0px 0px 1px #fafafa;
+  --shadow-elevated: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 4px 12px rgba(0,0,0,0.08);
+  --shadow-modal: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 8px 24px rgba(0,0,0,0.12);
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+}
+
+/* Vercel-style utility classes */
+.vercel-card {
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 2px 2px rgba(0,0,0,0.04), 0px 8px 8px -8px rgba(0,0,0,0.04), inset 0px 0px 0px 1px #fafafa;
+  border-radius: 12px;
+}
+.vercel-border {
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+.vercel-border-raised {
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 4px 12px rgba(0,0,0,0.08);
+  border-radius: 6px;
+}
+.vercel-btn-primary {
+  background-color: #171717;
+  color: white;
+  border-radius: 6px;
+}
+.vercel-btn-primary:hover {
+  background-color: #333;
+}
+.vercel-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vercel-badge-draft {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.vercel-badge-confirmed {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+.vercel-badge-generating {
+  background-color: #fdf2f8;
+  color: #be185d;
+}
+.vercel-badge-done {
+  background-color: #ecfdf5;
+  color: #047857;
+}
 
 body {
   margin: 0;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Vercel-style link */
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
 }

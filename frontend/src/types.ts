@@ -22,7 +22,7 @@ export interface Novel {
   category: string;
   user_idea: string;
   word_count: number;
-  status: 'draft' | 'confirmed' | 'generating' | 'done';
+  status: 'draft' | 'confirmed' | 'generating' | 'done' | 'interrupted';
   created_at: string;
   updated_at: string;
   volumes: Volume[];

@@ -8,6 +8,16 @@ PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BACKEND_DIR="$PROJECT_DIR/backend"
 FRONTEND_DIR="$PROJECT_DIR/frontend"
 
+# 先清理占用 5001 端口的旧进程
+kill_port() {
+  local pid=$(lsof -ti :5001 2>/dev/null)
+  if [ -n "$pid" ]; then
+    echo "  清理旧进程 (PID: $pid)..."
+    kill -9 $pid 2>/dev/null
+    sleep 0.5
+  fi
+}
+
 echo "================================"
 echo "   📖 小说家 - AI 创作助手"
 echo "================================"
@@ -27,6 +37,7 @@ if [ "$1" = "dev" ]; then
   # 开发模式：前后端分离
   echo ""
   echo "[开发模式] 启动后端 (端口 5001)..."
+  kill_port
   cd "$BACKEND_DIR"
   source venv/bin/activate
   python app.py &
@@ -59,6 +70,7 @@ else
 
   echo ""
   echo "[生产模式] 启动后端 (端口 5001)..."
+  kill_port
   cd "$BACKEND_DIR"
   source venv/bin/activate
   echo ""
