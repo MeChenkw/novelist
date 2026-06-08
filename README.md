@@ -6,11 +6,21 @@
 [![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-22+-green.svg)](https://nodejs.org/)
 
+[![Deploy on Sealos](https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dnovelist)
+
 ---
 
 English | [中文 - 使用说明](#使用说明)
 
 ---
+
+## Deploy in 30 seconds
+
+[![Deploy on Sealos](https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dnovelist)
+
+Click the button above to deploy Novelist to Sealos Cloud with a single click. No server setup, no Docker knowledge required.
+
+After deployment, open Settings (⚙️) in the app to configure your AI API key.
 
 ## Why
 
@@ -228,6 +238,16 @@ MIT © [MeChenkw](https://github.com/MeChenkw)
 - 📱 **响应式**：桌面端和移动端都能用
 
 ## 怎么用
+
+### 一键部署到 Sealos（推荐）
+
+[![Deploy on Sealos](https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dnovelist)
+
+点击上方按钮，30 秒内在 Sealos 云平台自动部署。无需服务器、无需配环境。
+
+部署完成后，在应用的 ⚙️ 设置中填入你的 AI API Key 即可开始使用。
+
+### 本地运行
 
 ### 环境要求
 
