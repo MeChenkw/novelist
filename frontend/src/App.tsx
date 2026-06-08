@@ -462,7 +462,7 @@ export default function App() {
               disabled={loading || !idea.trim() || !hasModelConfig}
               className="w-full py-3 bg-[#171717] text-white rounded-md font-medium hover:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? t('app.generating') : '🚀 创意提交'}
+              {loading ? t('app.generating') : `🚀 ${t('create.submit_idea')}`}
             </button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState, useCallback, useImperativeHandle, forwardRef } from 'react';
 import { api } from '../api';
 import { t, getLocale } from '../i18n';
+import { FALLBACK_EN } from '../constants/FALLBACK_EN';
 
 // 创意要素维度
 interface IdeaDimension {
@@ -95,13 +96,21 @@ function analyzeIdea(idea: string): Set<string> {
   if (/^主角优势：/m.test(idea) || /^Advantage:/m.test(idea)) covered.add('advantage');
 
   if (covered.size < 5) {
-    const patterns: Record<string, RegExp[]> = {
+    const zhPatterns: Record<string, RegExp[]> = {
       protagonist: [/主角/i, /少年/i, /少女/i, /学生/i, /程序员/i, /将军/i, /穿越/i, /重生/i, /大学生/i],
       world: [/世界/i, /大陆/i, /宇宙/i, /时代/i, /都市/i, /校园/i, /王朝/i],
       conflict: [/战争/i, /争夺/i, /对抗/i, /危机/i, /阴谋/i, /复仇/i, /守护/i],
       style: [/喜剧/i, /悬疑/i, /热血/i, /轻松/i, /黑暗/i, /治愈/i, /史诗/i],
       advantage: [/能力/i, /金手指/i, /系统/i, /天赋/i, /知识/i, /技能/i, /法宝/i],
     };
+    const enPatterns: Record<string, RegExp[]> = {
+      protagonist: [/protagonist/i, /hero/i, /heroine/i, /transmigrat/i, /reborn/i, /student/i, /wander/i, /apprentice/i, /disciple/i],
+      world: [/world/i, /kingdom/i, /dynasty/i, /continent/i, /galaxy/i, /realm/i, /dimension/i, /universe/i, /empire/i, /era/i],
+      conflict: [/war/i, /conflict/i, /struggle/i, /battle/i, /revenge/i, /conspiracy/i, /invasion/i, /crisis/i, /rebellion/i, /fight/i],
+      style: [/romance/i, /adventure/i, /thriller/i, /mystery/i, /comedy/i, /drama/i, /suspense/i, /fantasy/i, /epic/i, /gritty/i],
+      advantage: [/power/i, /ability/i, /skill/i, /knowledge/i, /talent/i, /magic/i, /system/i, /inheritance/i, /weapon/i, /bloodline/i],
+    };
+    const patterns = getLocale() === 'en' ? enPatterns : zhPatterns;
     for (const [dim, regexps] of Object.entries(patterns)) {
       if (covered.has(dim)) continue;
       for (const re of regexps) {
@@ -158,8 +167,10 @@ const IdeaEnhancer = forwardRef<IdeaEnhancerHandle, Props>(({ value, onChange, c
   const isFirst = currentDimIndex === 0;
   const isLast = currentDimIndex === missingDims.length - 1;
 
-  // 预置选项（按 category 和 dimKey 获取）
-  const catOptions = FALLBACK_OPTIONS[category] || FALLBACK_OPTIONS['玄幻'];
+  // 预置选项（按 locale 选择中/英文数据集）
+  const catOptions = locale === 'en'
+    ? (FALLBACK_EN[category] || FALLBACK_EN['玄幻'])
+    : (FALLBACK_OPTIONS[category] || FALLBACK_OPTIONS['玄幻']);
   const currentOptions = dim ? (catOptions[dim.key] || []) : [];
   // 调试：确保每个维度都有独立的选项（仅在需要时启用）
   // const _debug = dim ? `${category}.${dim.key} = ${currentOptions.length} options` : '';
@@ -178,6 +189,12 @@ const IdeaEnhancer = forwardRef<IdeaEnhancerHandle, Props>(({ value, onChange, c
     isMissing: () => missingDims.length > 0,
     missingCount: () => missingDims.length,
   }));
+
+  // 关闭弹窗，不做任何修改
+  const handleClose = useCallback(() => {
+    setShowEnhancer(false);
+    setCurrentDimIndex(0);
+  }, []);
 
   const finalize = useCallback((extra: Record<string, string>) => {
     const updated = composeIdea(value, { ...supplements, ...extra });
@@ -289,10 +306,19 @@ const IdeaEnhancer = forwardRef<IdeaEnhancerHandle, Props>(({ value, onChange, c
       {showEnhancer && dim && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.4)] flex items-center justify-center z-50">
           <div className="bg-white shadow-[var(--shadow-modal)] rounded-xl max-w-lg w-full mx-4 p-6" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-1 mb-4">
-              {missingDims.map((_, i) => (
-                <div key={i} className={`h-1.5 flex-1 rounded-full ${i < currentDimIndex ? 'bg-[#0072f5]' : i === currentDimIndex ? 'bg-[#171717]' : 'bg-[#e5e7eb]'}`} />
-              ))}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-1 flex-1">
+                {missingDims.map((_, i) => (
+                  <div key={i} className={`h-1.5 flex-1 rounded-full ${i < currentDimIndex ? 'bg-[#0072f5]' : i === currentDimIndex ? 'bg-[#171717]' : 'bg-[#e5e7eb]'}`} />
+                ))}
+              </div>
+              <button
+                onClick={handleClose}
+                className="ml-4 text-[#808080] hover:text-[#171717] text-lg leading-none"
+                title={locale === 'en' ? 'Close' : '关闭'}
+              >
+                ✕
+              </button>
             </div>
             <h3 className="text-lg font-semibold text-[#171717] mb-1">
               {locale === 'en' ? dim.labelEn : dim.labelKey}

@@ -1,0 +1,58 @@
+export const FALLBACK_EN: Record<string, Record<string, string[]>> = {
+  '玄幻': {
+    protagonist: ['Transmigrator/Reborn', 'Ordinary Youth with Fortune', 'Prodigy/Special Physique', 'Cultivation Sect Disciple', 'Underdog Rising from Zero', 'Hidden Power Returns', 'Chosen One by Fate', 'Wandering Orphan', 'Fallen Noble Scion', 'Runaway Young Master'],
+    world: ['Immortal Cultivation World', 'Otherworldly Continent', 'Eastern Fantasy Realm', 'Gods and Demons Battlefield', 'Starry Cosmos', 'Nine Heavens Immortal Domain', 'Primeval Wildlands', 'Cycle of Reincarnation', 'Myriad Realm Battlefield', 'Chaos Void'],
+    conflict: ['Clash of Good and Evil', 'Power Struggles and Conspiracy', 'Growth and Self-Transcendence', 'Protecting Loved Ones', 'Defying the Laws of Heaven', 'War of a Thousand Races', 'Fate Defiance', 'Sect Rivalries and Grudges', 'Race for Ancient Treasures', 'Crisis of Interdimensional Invasion'],
+    style: ['Thrilling Adventure', 'Epic Grandeur', 'Fast-Paced Power Fantasy', 'Light and Humorous', 'Dark and Gritty', 'Overpowered Protagonist', 'Suspense and Mystery', 'Poignant and Graceful', 'Passionate and Tragic', 'Slow-Burn Refinement'],
+    advantage: ['Rare Treasure/System', 'Special Physique/Bloodline', 'Past Life Memory', 'Brilliant Strategy', 'Unmatched Comprehension', 'Ancient Inheritance', 'Divine Weapon/Artifact', 'Space-Time Ability', 'Alchemy/Crafting Talent', 'Mythical Beast Contract'],
+  },
+  '奇幻': {
+    protagonist: ['Isekai Transmigrator', 'Ordinary Adventurer', 'Mage Apprentice', 'Noble/Heir to Throne', 'Summoner/Beast Tamer', 'Cursed Wanderer', 'Dragon Slayer Descendant', 'Elf or Dwarf Bloodline', 'Mercenary Vagabond', 'Amnesiac Mysterious Stranger'],
+    world: ['Western Magic Realm', 'Sword and Sorcery Continent', 'Multiverse Nexus', 'Mythological Land', 'Steampunk and Magic Fusion', 'Elven Forest and Dragon Domain', 'Lost Atlantis Under Sea', 'Sky Floating Islands', 'Underdark and Abyss', 'Border of Dream and Reality'],
+    conflict: ['Demon Lord vs Hero', 'Racial War and Reconciliation', 'Sealing and Unleashing', 'Survival of Magic Civilization', 'Rebelling Against Prophecy', 'Struggle for Divine Throne', 'Awakening of Ancient Dragons', 'Magic vs Technology', 'War of Royal Succession', 'Threat of Otherworld Invasion'],
+    style: ['Epic Quest', 'Romantic Fantasy', 'Dark Gothic', 'Light Fairytale', 'Grand Warfare', 'Mystical Exploration', 'Witty and Whimsical', 'Melancholic and Bleak', 'Fierce and Passionate', 'Warm and Healing'],
+    advantage: ['Innate Magic Talent', 'Divine Artifact/Heritage', 'Knowledge from Another World', 'Bound Beast/Companion', 'Special Bloodline', 'Soul Power', 'Elemental Affinity', 'Prophecy/Divination', 'Shapeshifting Ability', 'Ancient Rune Knowledge'],
+  },
+  '都市': {
+    protagonist: ['Ordinary Office Worker', 'Rejuvenated Rebirth', 'Gifted Student', 'Hidden Identity Powerhouse', 'Entrepreneur Grinding Up', 'Retired Veteran Returns', 'Low-Key Rich Second Generation', 'Freelancer/Influencer', 'Detective/Cop', 'Doctor or Lawyer'],
+    world: ['Modern Metropolis', 'Campus Life', 'Corporate World', 'Supernatural City', 'Showbiz and Sports', 'Underground Crime Ring', 'International Megacity', 'Small Town Living', 'Wealthy Dynasty', 'Hospital or Police Station'],
+    conflict: ['Office Politics and Business War', 'Love vs Reality', 'Crossing Class Divides', 'Justice vs Darkness', 'Family vs Ambition', 'Gang Infiltration', 'Urban Mystery Puzzle', 'Struggle for Wealth and Power', 'Friendship and Betrayal', 'Haunted by Past Shadows'],
+    style: ['Light and Sweet Romance', 'Gritty Realism', 'Power Fantasy Rise', 'Suspenseful and Tense', 'Inspiring and Motivational', 'Humorous and Funny', 'Urban Romance', 'Corporate Warfare', 'Dark and Edgy', 'Warm Slice of Life'],
+    advantage: ['Rebirth Memory/Precognition', 'Supernatural Power/System', 'Sharp Business Instincts', 'Elite Professional Skills', 'Deep Network Connections', 'Combat/Military Training', 'Medical Expertise', 'Hacking/Tech Prowess', 'Keen Insight', 'Language/Diplomacy Talent'],
+  },
+  '历史': {
+    protagonist: ['Modern Transmigrator to Ancient Times', 'Famous General or Minister', 'Royal Family Member', 'Commoner Rising from Dust', 'Reformer and Strategist', 'Young Marshal', 'Hidden Sage', 'Prince Lost Among Commoners', 'Scholar Entering Civil Service', 'Wandering Swordsman'],
+    world: ['Three Kingdoms Era', 'Tang Dynasty Golden Age', 'Ming and Qing Dynasties', 'Qin-Han Conquest', 'Alternate Historical Dynasty', 'Spring and Autumn Period', 'Song-Liao-Jin-Xia Border', 'Northern and Southern Dynasties', 'Yuan-Ming Transition', 'Five Dynasties and Ten Kingdoms'],
+    conflict: ['Dynastic War and Succession', 'Minister vs Emperor Power Play', 'Repelling Foreign Invasion', 'Driving Historical Change', 'Reform and Livelihood', 'Imperial Court Intrigue', 'Border War and Beacon Fires', 'Clash of Old and New Ideas', 'Surviving Calamity and Famine', 'Diplomacy and Marriage Alliances'],
+    style: ['Cunning Schemes', 'Passionate Conquest', 'Light Settlement Building', 'Weighty Historical Epic', 'Humorous and Witty', 'Serious Historical Drama', 'Mystery and Investigation', 'Court Romance', 'Folk Legends', 'Military Strategy'],
+    advantage: ['Modern Knowledge/Technology', 'Historical Foresight', 'Masterful Strategy', 'Military Genius', 'Political Savvy', 'Economic Acumen', 'Special Connections', 'Superhuman Martial Prowess', 'Medical or Craft Skill', 'Deep Classical Education'],
+  },
+  '科幻': {
+    protagonist: ['Astronaut or Starship Captain', 'Genetically Enhanced Human', 'Post-Apocalypse Survivor', 'Awakened AI', 'Scientist or Engineer', 'Virtual World Player', 'Hybrid Alien Descendant', 'Time Traveler', 'Super Soldier', 'Rebel Leader Against Tyranny'],
+    world: ['Interstellar Space', 'Cyberpunk Metropolis', 'Post-Apocalyptic Wasteland', 'Virtual Reality/Game World', 'AI-Driven Future', 'Parallel Universe', 'Deep Sea City', 'Space Colony', 'Genetic Engineering Era', 'Nanotech Civilization'],
+    conflict: ['Humanity vs Alien Invasion', 'Ethical Dilemmas of Science', 'Survival and Rebuilding', 'Blurred Lines of Man and Machine', 'Resource Wars', 'Restoring Broken Timeline', 'Virtual vs Reality Confusion', 'Genetic Modification Debate', 'Interstellar Colonization Clash', 'Rogue Super AI'],
+    style: ['Hard Science Fiction', 'Bleak Post-Apocalyptic', 'Dark Cyberpunk', 'Space Opera', 'Suspenseful Thriller', 'Cold Realism', 'Philosophical Exploration', 'Action-Packed Adventure', 'Glimmer of Hope', 'Dystopian Dread'],
+    advantage: ['Advanced Tech/Mech Suit', 'Genetic Evolution/Psychic Power', 'Survival Experience', 'AI Companion', 'Specialized Knowledge', 'Time Manipulation', 'Hacking/Netrunning', 'Bio-Modification/Cybernetics', 'Space Combat Experience', 'Data Analysis/Prediction'],
+  },
+  '悬疑': {
+    protagonist: ['Detective or Police Inspector', 'Forensic Expert or Profiler', 'Ordinary Person Caught in Mystery', 'Paranormal Medium', 'Investigative Journalist', 'Retired Detective Brought Back', 'Falsely Accused Fugitive', 'Ex-Member of Secret Organization', 'Psychologist or Therapist', 'Historian or Archaeologist'],
+    world: ['Dark Underbelly of the City', 'Isolated Island or Mansion', 'Supernatural Dimension', 'Police Precinct', 'Ancient Tomb or Ruins', 'Abandoned Hospital or School', 'Remote Mountain Village', 'Underground Bunker', 'Labyrinth of the Mind', 'Dark Web'],
+    conflict: ['Hunting a Serial Killer', 'Truth vs Lies and Deception', 'Unraveling Supernatural Enigma', 'Justice vs Darkness', 'Race Against Time', 'Amnesia and Identity Mystery', 'Solving the Locked Room', 'Investigating an Ancient Curse', 'Parallel Realities Collide', 'Psychological Mind Games'],
+    style: ['Eerie and Uncanny', 'Brain-Teasing Deduction', 'Tense and Suspenseful', 'Gritty Realism', 'Paranormal Horror', 'Psychological Thriller', 'Social Mystery', 'Classic Whodunit', 'Claustrophobic Tension', 'Plot Twist After Twist'],
+    advantage: ['Razor-Sharp Observation', 'Logical Deduction Talent', 'Supernatural Sixth Sense', 'Forensic Investigation Training', 'Rich Case Experience', 'Medical or Pathology Knowledge', 'Psychological Analysis Skills', 'Photographic Memory', 'Disguise and Infiltration', 'Cyber Tracking Expertise'],
+  },
+  '言情': {
+    protagonist: ['Strong-Willed Heroine', 'Deeply Devoted Hero', 'Reborn Heroine', 'Wealthy Heir or Heiress', 'Warm and Ordinary Protagonist', 'Cold Genius/CEO Type', 'Sunshine Athlete Type', 'Entertainment Industry Star', 'Classic Noble Daughter', 'Career-Driven City Professional'],
+    world: ['Modern City Life', 'Campus Youth Days', 'Ancient Palace or Noble House', 'Corporate World', 'Showbiz Spotlight', 'Republican Era Romance', 'Fantasy Cultivation World', 'Overseas Setting', 'Small Town or Countryside', 'Competitive Sports Circle'],
+    conflict: ['Love vs Social Status', 'Misunderstandings and Missed Chances', 'Family Wealth and Opposition', 'Career vs Relationship Balance', 'Test of Long Distance', 'Love Triangle Interference', 'Crossing Class Barriers', 'Lost and Found Memories', 'Childhood Friend vs New Flame', 'Rekindling a Broken Bond'],
+    style: ['Sweet and Heartwarming', 'Bittersweet Angsty Love', 'Light and Playful', 'Dreamy and Aesthetic', 'Realistic and Heartbreaking', 'Secret Crush Comes True', 'Marriage Before Love', 'Bickering Lovers', 'Devoted and Protective', 'Rekindled Romance'],
+    advantage: ['Rebirth Knowledge/System', 'Exceptional Talent and Skill', 'Kind and Resilient Heart', 'Wealth and Status', 'Unique Charm and Grace', 'Cooking or Artistic Gift', 'Business Acumen', 'Healing Presence', 'Independent Strong Will', 'Striking Appearance'],
+  },
+  '武侠': {
+    protagonist: ['Young Wanderer Entering Jianghu', 'Hidden Master Reemerges', 'Sect Disciple', 'Avenger or Drifter', 'Martial Arts Prodigy', 'Wandering Healer', 'Imperial Spy', 'Cult Leader Heir', 'Beggar Sect Member', 'Martial Family Inheritor'],
+    world: ['Martial Arts Jianghu', 'Sects Across the Central Plains', 'Court and Jianghu Intertwined', 'Chaos Era of Wandering Heroes', 'Secret Realms and Ancient Tombs', 'Frontier Desert Pass', 'Jiangnan Water Towns', 'Imperial Capital', 'Remote Island', 'Underground Passages'],
+    conflict: ['Righteous Sects vs Demonic Cult', 'Struggle for Martial Throne', 'Blood Feud Revenge', 'Jianghu vs Imperial Power', 'Race for Forbidden Manuals', 'Treasure Map Upheaval', 'Sect Survival Crisis', 'Defending the Homeland', 'Master-Disciple Grudges', 'Pursuit of Martial Peak'],
+    style: ['Chivalry and Romance', 'Gutsy Revenge Tale', 'Passionate and Bold', 'Tragic and Grandiose', 'Witty and Playful', 'Mystery and Investigation', 'Political Martial World', 'Romantic Jianghu', 'Gritty Hardcore Wuxia', 'Ink-Wash Poetic'],
+    advantage: ['Legendary Martial Heritage', 'Rare Divine Weapon', 'Unrivaled Martial Talent', 'Deep Inner Energy Mastery', 'Secret Treasure Map', 'Lightness Skill/Projectile Mastery', 'Medical Arts and Poison', 'Disguise and Stealth', 'Formation and Divination', 'Music and Poetry Skill'],
+  },
+};

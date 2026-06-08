@@ -111,6 +111,15 @@ export default function OutlineEditor({ novel, onSave, onConfirm, onBack, onGene
               >
                 {t('outline.modify')}
               </button>
+              {(novel.status as string) === 'confirmed' && onGenerate && (
+                <button
+                  onClick={onGenerate}
+                  disabled={generating}
+                  className="px-4 py-2 text-sm bg-[#171717] text-white rounded-md hover:bg-[#333] disabled:opacity-50"
+                >
+                  {generating ? t('outline.generating') : t('outline.generate')}
+                </button>
+              )}
             </>
           )}
           {(novel.status as string) === 'interrupted' && onGenerate && (

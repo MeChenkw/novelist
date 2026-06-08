@@ -29,6 +29,20 @@ Novelist takes your vague idea (e.g. "a programmer transmigrates into a cultivat
 - 🔌 **Multi-provider**: DeepSeek / OpenAI / SiliconFlow / Ollama / Custom API
 - 📱 **Responsive**: Works on desktop and mobile
 
+## Demo
+
+<p align="center">
+  <img src="docs/demo.gif" alt="Novelist Demo (Chinese)" width="640">
+  <br>
+  <em>Chinese UI — full workflow from inspiration to reading</em>
+</p>
+
+<p align="center">
+  <img src="docs/demo-en.gif" alt="Novelist Demo (English)" width="640">
+  <br>
+  <em>English UI — model settings, creative guidance, outline editing, and generation</em>
+</p>
+
 ## Quick Start
 
 ### Prerequisites
