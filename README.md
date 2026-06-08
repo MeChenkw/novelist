@@ -6,7 +6,11 @@
 [![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-22+-green.svg)](https://nodejs.org/)
 
-[![Deploy on Sealos](https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dnovelist)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/novelist?referralCode=novelist)
+
+Or try the live demo without installing anything: **[novelist-production.up.railway.app](https://novelist-production.up.railway.app)**
+
+> You'll need your own AI API key (DeepSeek / OpenAI / etc.) to generate content. Keys are stored in your browser, never uploaded.
 
 ---
 
@@ -14,13 +18,15 @@ English | [中文 - 使用说明](#使用说明)
 
 ---
 
-## Deploy in 30 seconds
+## 🚀 Live Demo
 
-[![Deploy on Sealos](https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dnovelist)
+Try it now: **[novelist-production.up.railway.app](https://novelist-production.up.railway.app)**
 
-Click the button above to deploy Novelist to Sealos Cloud with a single click. No server setup, no Docker knowledge required.
+You'll need an AI API key — get one free/cheap from [DeepSeek](https://platform.deepseek.com/).
 
-After deployment, open Settings (⚙️) in the app to configure your AI API key.
+## Deploy Your Own
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/novelist?referralCode=novelist)
 
 ## Demo
 
@@ -243,13 +249,17 @@ MIT © [MeChenkw](https://github.com/MeChenkw)
 
 ## 怎么用
 
-### 一键部署到 Sealos（推荐）
+### 🚀 在线体验
 
-[![Deploy on Sealos](https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dnovelist)
+无需安装，直接打开：**[novelist-production.up.railway.app](https://novelist-production.up.railway.app)**
 
-点击上方按钮，30 秒内在 Sealos 云平台自动部署。无需服务器、无需配环境。
+需要自备 AI API Key（推荐 [DeepSeek](https://platform.deepseek.com/)，便宜好用）。Key 保存在你的浏览器中，不会上传。
 
-部署完成后，在应用的 ⚙️ 设置中填入你的 AI API Key 即可开始使用。
+### 一键部署到 Railway（推荐）
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/novelist?referralCode=novelist)
+
+点击上方按钮，自动部署到你自己的 Railway 账号。
 
 ### 演示
 
