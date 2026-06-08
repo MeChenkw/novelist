@@ -22,6 +22,10 @@ Click the button above to deploy Novelist to Sealos Cloud with a single click. N
 
 After deployment, open Settings (⚙️) in the app to configure your AI API key.
 
+## Demo
+
+![Novelist Demo](docs/demo.gif)
+
 ## Why
 
 The hardest part of writing a novel isn't the writing itself — it's knowing what to write, how to structure it, and keeping momentum past chapter one.
@@ -246,6 +250,10 @@ MIT © [MeChenkw](https://github.com/MeChenkw)
 点击上方按钮，30 秒内在 Sealos 云平台自动部署。无需服务器、无需配环境。
 
 部署完成后，在应用的 ⚙️ 设置中填入你的 AI API Key 即可开始使用。
+
+### 演示
+
+![小说家演示](docs/demo.gif)
 
 ### 本地运行
 
